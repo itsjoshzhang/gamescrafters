@@ -1,6 +1,6 @@
-# x-to-0-solver.py
+import game10 as g
 
-import game25 as g
+solns = {}
 
 def solve(post):
     """
@@ -9,14 +9,17 @@ def solve(post):
         Example: Solve(“10 pennies”) → win
         Example: Solve(“no pennies”) → lose
     """
+    if post in solns:
+        return solns[post]
+
     if g.is_primitive(post):
         return g.primitive_value(post)
 
     moves = g.generate_moves(post)
-
     child_posts = [g.do_move(post, move) for move in moves]
-    child_values = [solve(child) for child in child_posts]
+    child_solns = [solve(child) for child in child_posts]
 
-    return "win" if "lose" in child_values else "lose"
+    solns[post] = "win" if "lose" in child_solns else "lose"
+    return solns[post]
     
 [print(f"{post}: {solve(post)}") for post in g.POSTS]

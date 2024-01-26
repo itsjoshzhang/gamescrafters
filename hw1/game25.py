@@ -1,5 +1,3 @@
-# 25-to-0-by-1-or-3-or-4.py
-
 POSTS = range(0, 26) # all legal positions
 MOVES = [1, 3, 4]    # all the legal moves
 
