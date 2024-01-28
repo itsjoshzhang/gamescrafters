@@ -1,5 +1,5 @@
 POSTS = range(0, 11) # all legal positions
-MOVES = [1, 2]       # all the legal moves
+MOVES = (1, 2)       # all the legal moves
     
 def do_move(post, move):
     if primitive_value(post):
