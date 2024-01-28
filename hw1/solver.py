@@ -1,19 +1,11 @@
-import game10 as g
+import game25 as g
 
 solns = {}
-
 def solve(post):
-    """
-    Solve(position) → { win, tie, lose }
-        Function: returns the value of (position) based on exhaustively searching the tree. It will call DoMove, GenerateMoves, and PrimitiveValue as needed.
-        Example: Solve(“10 pennies”) → win
-        Example: Solve(“no pennies”) → lose
-    """
-    if post in solns:
-        return solns[post]
 
-    if g.is_primitive(post):
-        return g.primitive_value(post)
+    if post in solns: return solns[post]
+    prim = g.primitive_value(post)
+    if prim: return prim
 
     moves = g.generate_moves(post)
     child_posts = [g.do_move(post, move) for move in moves]
