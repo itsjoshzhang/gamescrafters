@@ -15,13 +15,12 @@ def do_move(post, move):
     return tuple(post_l)
 
 def generate_moves(post):
-    def next_piece(post):
-        # X's next when board's empty or balanced, else O
-        return X if post.count(X) == post.count(O) else O
+    # X's next when board's empty or balanced, else O
+    next_p = X if post.count(X) == post.count(O) else O
 
     if primitive_value(post):
         raise ValueError(f"Position {post} is primitive.")
-    return [(p, next_piece(post)) for p in BOARD if post[p] == None]
+    return [(p, next_p) for p in BOARD if post[p] == None]
 
 def primitive_value(post):
     def has_ending(group):
