@@ -19,10 +19,10 @@ def primitive_value(post):
 
 def test_cases():
     print("Testing do_move(position, 1):")
-    [print(f"{post}: {do_move(post, 1)}") for post in POSTS[1:]]
+    [print(f"{p}: {do_move(p, 1)}") for p in POSTS[1:]]
 
     print("Testing generate_moves():")
-    [print(f"{post}: {generate_moves(post)}")  for post in POSTS[1:]]
+    [print(f"{p}: {generate_moves(p)}")  for p in POSTS[1:]]
     
     print("Testing primitive_value():")
-    [print(f"{post}: {primitive_value(post)}") for post in POSTS]
+    [print(f"{p}: {primitive_value(p)}") for p in POSTS]
