@@ -12,24 +12,19 @@ def solve(post):
         return value
 
     moves = g.generate_moves(post)
-    child_posts = [g.do_move(post, m) for m in moves]
-    child_solns = [solve(c) for c in child_posts]
+    c_posts = [g.do_move(post, m) for m in moves]
+    c_solns = [solve(p) for p in c_posts]
 
-    if "lose" in child_solns:
+    if "lose" in c_solns:
         solns[post] = "win"
-    elif "tie" in child_solns:
+    elif "tie" in c_solns:
         solns[post] = "tie"
     else:
         solns[post] = "lose"
     return solns[post]
 
 solve(tuple(None for _ in g.POSTS))
-win, tie, lose = 0, 0, 0
+v = list(solns.values())
 
-for value in solns.values():
-    match value:
-        case "lose": lose += 1
-        case "win": win += 1
-        case "tie": tie += 1
-
-print(f"lose: {lose} \nwin: {win} \ntie: {tie} \ntotal: {len(solns)}")
+print(f"lose: {v.count("lose")} \nwin: {v.count("win")}")
+print(f"tie: {v.count("tie")} \ntotal: {len(solns)}")

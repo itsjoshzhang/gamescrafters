@@ -1,7 +1,10 @@
+import numpy as np
+
 POSTS = (0, 1, 2,   # position = 9-item list of X & O
          3, 4, 5,   # empty tiles and not_prim = None
          6, 7, 8)   # move = tuple (BOARD_index, X/O)
-X, O = 1, 0
+X, O  = 1, 0
+canon = []
 
 def do_move(post, move):
     if primitive_value(post):
@@ -38,3 +41,24 @@ def primitive_value(post):
         return "lose"
     elif None not in post:
         return "tie"
+    
+def canonical(post):
+    grid = np.array(post).reshape(3, 3)
+    
+    transforms = [
+        lambda x: x,                         # Identity
+        lambda x: np.rot90(x),               # Rotate 90°
+        lambda x: np.rot90(x, 2),            # Rotate 180°
+        lambda x: np.rot90(x, 3),            # Rotate 270°
+        lambda x: np.flipud(x),              # Reflect (x)
+        lambda x: np.flipud(np.rot90(x)),    # 90°, reflect
+        lambda x: np.flipud(np.rot90(x, 2)), # 180°, reflect
+        lambda x: np.flipud(np.rot90(x, 3)), # 270°, reflect
+    ]
+    for func in transforms:
+        t_post = tuple(func(grid).flatten())
+        if t_post in canon:
+            return t_post
+        
+    canon.append(post)
+    return post
