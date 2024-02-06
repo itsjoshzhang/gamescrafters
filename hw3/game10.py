@@ -16,3 +16,5 @@ def generate_moves(post):
 
 def primitive_value(post):
     return "lose" if post == POSTS[0] else None
+
+def canonical(post): return post

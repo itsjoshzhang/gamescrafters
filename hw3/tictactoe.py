@@ -46,14 +46,14 @@ def canonical(post):
     grid = np.array(post).reshape(3, 3)
     
     transforms = [
-        lambda x: x,                         # Identity
-        lambda x: np.rot90(x),               # Rotate 90°
-        lambda x: np.rot90(x, 2),            # Rotate 180°
-        lambda x: np.rot90(x, 3),            # Rotate 270°
-        lambda x: np.flipud(x),              # Reflect (x)
-        lambda x: np.flipud(np.rot90(x)),    # 90°, reflect
-        lambda x: np.flipud(np.rot90(x, 2)), # 180°, reflect
-        lambda x: np.flipud(np.rot90(x, 3)), # 270°, reflect
+        lambda p: p,                         # Identity
+        lambda p: np.rot90(p),               # Rotate 90°
+        lambda p: np.rot90(p, 2),            # Rotate 180°
+        lambda p: np.rot90(p, 3),            # Rotate 270°
+        lambda p: np.flipud(p),              # Reflect (x)
+        lambda p: np.flipud(np.rot90(p)),    # 90°, reflect
+        lambda p: np.flipud(np.rot90(p, 2)), # 180°, reflect
+        lambda p: np.flipud(np.rot90(p, 3)), # 270°, reflect
     ]
     for func in transforms:
         t_post = tuple(func(grid).flatten())
