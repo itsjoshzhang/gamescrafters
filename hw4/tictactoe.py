@@ -1,6 +1,6 @@
 import numpy as np
 
-M,N,K = 3, 3, 3         # position = 9-item tuple of X, O
+M,N,K = 4, 3, 3         # position = 9-item tuple of X, O
 POSTS = range(M * N)    # empty tiles and not_prim = None
 X, O  = 1, 0            # move = tuple (BOARD_index, X/O)
 canon = set()
@@ -26,7 +26,19 @@ def generate_moves(post):
     return [(p, next_p) for p in POSTS if post[p] == None]
 
 def primitive_value(post):
-    has_end = lambda l: l.count(X) == 3 or l.count(O) == 3
+    # has_end = lambda l: l.count(X) == K or l.count(O) == K
+    def has_end(line):
+        x, o = 0, 0
+        for tile in line:
+            if tile == X:
+                x, o = x + 1, 0
+            elif tile == O:
+                x, o = 0, o + 1
+            else:
+                x, o = 0, 0
+            if x >= K or o >= K:
+                return True
+        return False
 
     rows = [post[i * N: (i + 1) * N] for i in range(M)]
     cols = [post[i::N] for i in range(N)]
@@ -73,6 +85,6 @@ def canonical(post):
         t_post = tuple(func(grid).flatten())
         if t_post in canon:
             return t_post
-        
+
     canon.add(post)
     return post
