@@ -1,6 +1,6 @@
 import tictactoe as g
 
-REMOVE_SYM = False
+REMOVE_SYM = True
 solns = {} # Dictionary. Keys: position <post>
 # Values: Tuple (string <value>, int <remote>)
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-M,N,K = 3, 3, 3         # position = 9-item tuple of X, O
+M,N,K = 4, 3, 3         # position = 9-item tuple of X, O
 POSTS = range(M * N)    # empty tiles and not_prim = None
 X, O  = 1, 0            # move = tuple (BOARD_index, X/O)
 canon = set()
@@ -26,43 +26,33 @@ def generate_moves(post):
     return [(p, next_p) for p in POSTS if post[p] == None]
 
 def primitive_value(post):
-    # has_end = lambda l: l.count(X) == K or l.count(O) == K
     def has_end(line):
         x, o = 0, 0
+
         for tile in line:
-            if tile == X:
-                x, o = x + 1, 0
-            elif tile == O:
-                x, o = 0, o + 1
-            else:
-                x, o = 0, 0
+            if tile == X:   x, o = x + 1, 0
+            elif tile == O: x, o = 0, o + 1
+            else:           x, o = 0, 0
             if x >= K or o >= K:
                 return True
         return False
-
-    rows = [post[i * N: (i + 1) * N] for i in range(M)]
-    cols = [post[i::N] for i in range(N)]
     
-    diags = []
-    for d in range(-(M - 1), N):
+    grid = np.array(post).reshape(M, N)
 
-        # Main diagonal from top left to bottom right
-        main  = range(max(0, -d), min(M, N - d))
-        diag1 = [post[i * N + (i + d)] for i in main]
-        
-        # Anti diagonal from top right to bottom left
-        anti = range(max(0, d), min(M, M + d))
-        diag2 = [post[i*N + (N-1-i-d)] for i in anti]
+    for i in range(M):          # rows
+        if has_end(grid[i, :]):
+            return "lose"
+    for j in range(N):          # cols
+        if has_end(grid[:, j]):
+            return "lose"
 
-        if len(diag1) >= K:
-            diags.append(diag1)
-        if len(diag2) >= K:
-            diags.append(diag2)
+    for d in range(-M + K, N - K + 1):  # main diagonal
+        if has_end(grid.diagonal(d)):
+            return "lose"               # anti diagonal
+        if has_end(np.fliplr(grid).diagonal(d)):
+            return "lose"
 
-    group = rows + cols + diags
-    if any(has_end(line) for line in group):
-        return "lose"
-    elif None not in post:
+    if None not in post:
         return "tie"
     
 def canonical(post):
