@@ -1,6 +1,6 @@
-POSTS = (0, 1, 2,   # position = 9-item tuple of X, O
+POSTS = (0, 1, 2,   # position = 9 item tuple of X, O
          3, 4, 5,   # empty tiles and not_prim = None
-         6, 7, 8)   # move = tuple (BOARD_index, X/O)
+         6, 7, 8)   # move = tuple (POSTS index, X/O)
 X, O = 1, 0
 
 def do_move(post, move):

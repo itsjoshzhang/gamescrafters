@@ -47,23 +47,23 @@ else:
 
 data = list(solns.values())
 keys = {"win": 0, "lose": 0, "tie": 0}
-dict = {}
+dist = {}
 
 for value, remote in data:
-    if remote not in dict:
-        dict[remote] = keys.copy()
-    dict[remote][value] += 1
+    if remote not in dist:
+        dist[remote] = keys.copy()
+    dist[remote][value] += 1
 
-sort = sorted(dict.items(), key = lambda x: x[0], reverse=True)
+sort = sorted(dist.items(), key = lambda x: x[0], reverse=True)
 sums = {**keys, "total": 0}
-
 print(f"remote wins loss ties total")
-for r, v in sort:
-    total = sum(v.values())
-    print(f"{r:<6} {v["win"]:<4} {v["lose"]:<4} {v["tie"]:<4} {total}")
+
+for remote, value in sort:
+    total = sum(value.values())
+    print(f"{remote:<6} {value["win"]:<4} {value["lose"]:<4} {value["tie"]:<4} {total}")
     
     for key in keys:
-        sums[key] += v[key]
+        sums[key] += value[key]
     sums["total"] += total
 
 print(f"\n{"total"}  {sums["win"]:<4} {sums["lose"]:<4} {sums["tie"]:<4} {sums["total"]}")

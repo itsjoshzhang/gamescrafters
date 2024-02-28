@@ -1,8 +1,8 @@
 import numpy as np
 
-M,N,K = 4, 3, 3         # position = 9-item tuple of X, O
+M,N,K = 4, 3, 3         # position: len M*N tuple of X, O
 POSTS = range(M * N)    # empty tiles and not_prim = None
-X, O  = 1, 0            # move = tuple (BOARD_index, X/O)
+X, O  = 1, 0            # move = tuple (POSTS index, X/O)
 canon = set()
 
 def do_move(post, move):
