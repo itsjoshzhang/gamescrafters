@@ -1,8 +1,9 @@
 import numpy as np
 
-M,N,K = 4, 3, 3         # position: len M*N tuple of X, O
-POSTS = range(M * N)    # empty tiles and not_prim = None
-X, O  = 1, 0            # move = tuple (POSTS index, X/O)
+M, N, K     = 4, 3, 3  # position: len M*N tuple of X, O
+X, O, EMPTY = 1, 0,-1  # move = tuple (POSTS index, X/O)
+
+POSTS = range(M * N)   # empty tile =-1; not_prim = None
 canon = set()
 
 def do_move(post, move):
@@ -23,7 +24,7 @@ def generate_moves(post):
     # X is next when board is empty or balanced, else O
     next_p = X if post.count(X) == post.count(O) else O
 
-    return [(p, next_p) for p in POSTS if post[p] == None]
+    return [(p, next_p) for p in POSTS if post[p] == EMPTY]
 
 def primitive_value(post):
     def has_end(line):
@@ -52,7 +53,7 @@ def primitive_value(post):
         if has_end(np.fliplr(grid).diagonal(d)):
             return "lose"
 
-    if None not in post:
+    if EMPTY not in post:
         return "tie"
     
 def canonical(post):

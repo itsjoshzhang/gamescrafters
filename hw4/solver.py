@@ -1,7 +1,8 @@
-import tictactoe as g
+import mnk_game as g
 
 REMOVE_SYM = True
-solns = {} # Dictionary. Keys: position <post>
+solns = {}
+# solns -> Dictionary -> Keys: position <post>
 # Values: Tuple (string <value>, int <remote>)
 
 def solve(post):
@@ -41,15 +42,14 @@ def solve(post):
 
 # PRINT ANALYSIS
 # position: len M*N tuple of X, O
-# start board: empty tiles = None
+# starting board: empty tile = -1
 
-solve(tuple(None for _ in g.POSTS))
+solve(tuple(g.EMPTY for _ in g.POSTS))
 
-data = list(solns.values())
 keys = {"win": 0, "lose": 0, "tie": 0}
 dist = {}
 
-for value, remote in data:
+for value, remote in solns.values():
     if remote not in dist:
         dist[remote] = keys.copy()
     dist[remote][value] += 1
@@ -60,10 +60,10 @@ print(f"remote wins loss ties total")
 
 for remote, value in sort:
     total = sum(value.values())
-    print(f"{remote:<6} {value["win"]:<4} {value["lose"]:<4} {value["tie"]:<4} {total}")
+    print(f"{remote:<6} {value['win']:<4} {value['lose']:<4} {value['tie']:<4} {total}")
     
     for key in keys:
         sums[key] += value[key]
     sums["total"] += total
 
-print(f"\n{"total"}  {sums["win"]:<4} {sums["lose"]:<4} {sums["tie"]:<4} {sums["total"]}")
+print(f"\n{'total'}  {sums['win']:<4} {sums['lose']:<4} {sums['tie']:<4} {sums['total']}")
