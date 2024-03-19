@@ -54,7 +54,7 @@ for value, remote in solns.values():
         dist[remote] = keys.copy()
     dist[remote][value] += 1
 
-sort = sorted(dist.items(), key = lambda x: x[0], reverse=True)
+sort = sorted(dist.items(), key=lambda x: x[0], reverse=True)
 sums = {**keys, "total": 0}
 print(f"remote wins loss ties total")
 

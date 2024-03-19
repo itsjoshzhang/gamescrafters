@@ -76,6 +76,5 @@ def canonical(post):
         t_post = tuple(func(grid).flatten())
         if t_post in canon:
             return t_post
-
     canon.add(post)
     return post
