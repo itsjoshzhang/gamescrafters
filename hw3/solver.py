@@ -1,7 +1,8 @@
 import tictactoe as g
 
 REMOVE_SYM = True
-solns = {} # Dictionary. Keys: position <post>
+solns = {}
+# solns -> Dictionary -> Keys: position <post>
 # Values: Tuple (string <value>, int <remote>)
 
 def solve(post):
@@ -45,25 +46,24 @@ if g.__name__ == "tictactoe":
 else:
     solve(10) # g is 10-to-0-by-1-or-2
 
-data = list(solns.values())
 keys = {"win": 0, "lose": 0, "tie": 0}
 dist = {}
 
-for value, remote in data:
+for value, remote in solns.values():
     if remote not in dist:
         dist[remote] = keys.copy()
     dist[remote][value] += 1
 
-sort = sorted(dist.items(), key = lambda x: x[0], reverse=True)
+sort = sorted(dist.items(), key=lambda x: x[0], reverse=True)
 sums = {**keys, "total": 0}
 print(f"remote wins loss ties total")
 
 for remote, value in sort:
     total = sum(value.values())
-    print(f"{remote:<6} {value["win"]:<4} {value["lose"]:<4} {value["tie"]:<4} {total}")
+    print(f"{remote:<6} {value['win']:<4} {value['lose']:<4} {value['tie']:<4} {total}")
     
     for key in keys:
         sums[key] += value[key]
     sums["total"] += total
 
-print(f"\n{"total"}  {sums["win"]:<4} {sums["lose"]:<4} {sums["tie"]:<4} {sums["total"]}")
+print(f"\n{'total'}  {sums['win']:<4} {sums['lose']:<4} {sums['tie']:<4} {sums['total']}")

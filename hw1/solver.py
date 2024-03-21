@@ -1,12 +1,14 @@
-import game25 as g
+import game10 as g
 solns = {}
 
 def solve(post):
     if post in solns:
         return solns[post]
     
-    prim = g.primitive_value(post)
-    if prim: return prim
+    value = g.primitive_value(post)
+    if value:
+        solns[post] = value
+        return value
 
     moves = g.generate_moves(post)
     c_posts = [g.do_move(post, m) for m in moves]
