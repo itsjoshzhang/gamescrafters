@@ -1,6 +1,6 @@
-[submodule "gamesman_one"]
-	path = gamesman_one
+[submodule "GamesmanClassic"]
+	path = GamesmanClassic
 	url = git@github.com:GamesCrafters/GamesmanClassic.git
-[submodule "gamesman_gpu"]
-	path = gamesman_gpu
+[submodule "GamesmanGPU"]
+	path = GamesmanGPU
 	url = git@github.com:GamesCrafters/GamesmanGPU.git
