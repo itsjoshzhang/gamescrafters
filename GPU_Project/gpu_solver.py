@@ -26,7 +26,7 @@ def make_tiers():
         prev = tier_arr[i - 1]                           # set curr tier's size
         curr = cp.empty(num_child(prev), dtype=cp.uint32)
 
-        populate(prev, curr, i)                       # curr == prev's children
+        fill_tier(prev, curr, i)                       # curr == prev's children
         tier_arr[i] = curr                               # add all tiers to arr
     return tier_arr
 
@@ -41,7 +41,7 @@ def num_child(tier):
     return count
 
 
-def populate(prev, curr, tier_num):
+def fill_tier(prev, curr, tier_num):
     """
     for p, i in enumerate(tier1):
         this_scratchpad = ai * 9 ~ (i+1) * 9 of scratchpad
@@ -98,8 +98,11 @@ TODO: implement deduplication with cuda/cupy library otherwise it's hella slow.
 https://developer.nvidia.com/blog/maximizing-performance-with-massively-parallel-hash-maps-on-gpus/
 """
 
-W, L, T = "win", "lose", "tie"
+WIN = cp.uint8(0b00)
+LOSE= cp.uint8(0b01)
+TIE = cp.uint8(0b10)
 
+# TODO: see gpu_objects.py
 cupy_hashmap  = gpu.CupyHashMap (size=None)
 numba_hashmap = gpu.NumbaHashMap(size=None)
 
@@ -108,7 +111,7 @@ def primitive_value(post):
     """
     TODO: This function is straight copied from homefun LMFAO have fun testing
     """
-    def bits_to_grid(post):
+    def to_grid(post):
         grid = cp.empty(M * N, dtype=cp.uint8)  # Turn bitwise post to arr
 
         for i in range(M * N):
@@ -127,23 +130,23 @@ def primitive_value(post):
                 return True
         return False
     
-    grid = bits_to_grid(post)
+    grid = to_grid(post)
 
     for i in range(M):          # rows
         if has_end(grid[i, :]):
-            return L
+            return LOSE
     for j in range(N):          # cols
         if has_end(grid[:, j]):
-            return L
+            return LOSE
 
     for d in range(-M + K, N - K + 1):  # y = -x
         if has_end(grid.diagonal(d)):
-            return L                    # y = +x
+            return LOSE                 # y = +x
         if has_end(cp.fliplr(grid).diagonal(d)):
-            return L
+            return LOSE
 
     if BLANK_P not in grid:     # no empty tiles
-        return T
+        return TIE
 
 if __name__ == "__main__":
     print_tiers()
